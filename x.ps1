@@ -24,5 +24,12 @@ foreach ($python in "py", "python3", "python", "python2") {
     }
 }
 
+$found = (Get-Command 'python*' -CommandType Application -ErrorAction SilentlyContinue | Where-Object {$_.name -match 'python\d'})
+if (($found -ne $null) -and ($found.Length -ge 1)) {
+    $python = $found[0]
+    $process = Start-Process -NoNewWindow -Wait -PassThru $python $xpy_args
+    Exit $process.ExitCode
+}
+
 Write-Error "${PSCommandPath}: error: did not find python installed"
 Exit 1
