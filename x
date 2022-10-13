@@ -29,5 +29,12 @@ for SEARCH_PYTHON in py python3 python python2; do
         exec "$python" $extra_arg "$xpy" "$@"
     fi
 done
+
+for SEARCH_PYTHON in (compgen -c "python"); do
+    if python=$(command -v $SEARCH_PYTHON) && [ -x "$python" ]; then
+        exec "$python" $extra_arg "$xpy" "$@"
+    fi
+done
+
 echo "$0: error: did not find python installed" >&2
 exit 1
