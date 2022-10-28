@@ -30,9 +30,9 @@ for SEARCH_PYTHON in py python3 python python2; do
     fi
 done
 
-for SEARCH_PYTHON in (compgen -c "python"); do
+for SEARCH_PYTHON in (compgen -c "python"  | grep '^python[2-3]\.[0-9]+$); do
     if python=$(command -v $SEARCH_PYTHON) && [ -x "$python" ]; then
-        exec "$python" $extra_arg "$xpy" "$@"
+        exec "$python" "$xpy" "$@"
     fi
 done
 

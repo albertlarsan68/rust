@@ -28,7 +28,7 @@ foreach ($python in "py", "python3", "python", "python2") {
     }
 }
 
-$found = (Get-Application "python*" | Where-Object {$_.name -match '^python\d'})
+$found = (Get-Application "python*" | Where-Object {$_.name -match '^python[2-3]\.[0-9]+(\.exe)?$'})
 if (($found -ne $null) -and ($found.Length -ge 1)) {
     $python = $found[0]
     $process = Start-Process -NoNewWindow -Wait -PassThru $python $xpy_args
