@@ -792,6 +792,7 @@ impl<'a> Builder<'a> {
                 run::Miri,
                 run::CollectLicenseMetadata,
                 run::GenerateCopyright,
+                run::DumpUnstableApi,
             ),
             Kind::Setup => describe!(setup::Profile),
             Kind::Clean => describe!(clean::CleanAll, clean::Rustc, clean::Std),

@@ -253,3 +253,30 @@ impl Step for GenerateCopyright {
         dest
     }
 }
+
+#[derive(Debug, PartialOrd, Ord, Copy, Clone, Hash, PartialEq, Eq)]
+pub struct DumpUnstableApi;
+
+impl Step for DumpUnstableApi {
+    type Output = ();
+
+    fn should_run(run: ShouldRun<'_>) -> ShouldRun<'_> {
+        run.path("src/tools/dump-unstable-api")
+    }
+
+    fn make_run(run: RunConfig<'_>) {
+        run.builder.ensure(DumpUnstableApi);
+    }
+
+    fn run(self, builder: &Builder<'_>) -> Self::Output {
+        let host = builder.build.build;
+        let mut cmd = builder.tool_cmd(Tool::DumpUnstableApi);
+        builder.ensure(crate::doc::Std {
+            stage: 0,
+            target: host,
+            format: crate::doc::DocumentationFormat::JSON,
+        });
+        cmd.arg(builder.json_doc_out(host));
+        builder.run(&mut cmd)
+    }
+}
